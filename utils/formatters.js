@@ -3,7 +3,7 @@ function formatMoney(value, locale = 'ru-RU', currency = 'RUB') {
   if (currency === 'RUB') {
     return `${new Intl.NumberFormat(locale, {
       maximumFractionDigits: 0
-    }).format(normalizedValue)} ₽`;
+    }).format(normalizedValue)} руб.`;
   }
 
   return new Intl.NumberFormat(locale, {

@@ -239,13 +239,6 @@ function renderDemoEstimate(estimate) {
       }
     );
 
-    addSectionTitle(doc, 'Примечания');
-    addBulletList(doc, estimate.assumptions, {
-      indent: 8,
-      width: 470,
-      fontSize: 9
-    });
-    doc.moveDown(0.3);
     doc.fontSize(9).fillColor('#6B7280').text(estimate.disclaimer);
     addFooter(doc);
   });
