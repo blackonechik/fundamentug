@@ -1,0 +1,14 @@
+{
+  "name": "fundamentug-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "pdfkit": "^0.17.2",
+    "telegraf": "^4.16.3"
+  }
+}
