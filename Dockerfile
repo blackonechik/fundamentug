@@ -2,7 +2,7 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-RUN apk add --no-cache ttf-dejavu
+COPY assets/fonts/basic.ttf assets/fonts/basic.ttf
 
 COPY package*.json ./
 

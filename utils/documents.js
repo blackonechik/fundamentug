@@ -14,28 +14,17 @@ const {
 const { formatMoney, formatTimelineRange } = require('./formatters');
 const { buildEstimate } = require('./estimate');
 
-const bodyFontCandidates = [
-  '/System/Library/Fonts/Supplemental/Arial Unicode.ttf',
-  '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
-  '/System/Library/Fonts/Supplemental/Arial.ttf'
-];
-const displayFontCandidates = [
-  '/System/Library/Fonts/Supplemental/Arial Bold.ttf',
-  '/System/Library/Fonts/Supplemental/Georgia.ttf',
-  '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf'
-];
-
-const bodyFontPath = bodyFontCandidates.find((candidate) => fs.existsSync(candidate));
-const displayFontPath = displayFontCandidates.find((candidate) => fs.existsSync(candidate));
+const bodyFontPath = path.resolve(process.cwd(), 'assets/fonts/basic.ttf');
+const displayFontPath = bodyFontPath;
 
 function setBodyFont(doc) {
-  if (bodyFontPath) {
+  if (fs.existsSync(bodyFontPath)) {
     doc.font(bodyFontPath);
   }
 }
 
 function setDisplayFont(doc) {
-  if (displayFontPath) {
+  if (fs.existsSync(displayFontPath)) {
     doc.font(displayFontPath);
   } else {
     setBodyFont(doc);
@@ -50,8 +39,15 @@ function assetExists(assetPath) {
   return fs.existsSync(resolveAsset(assetPath));
 }
 
+function ensurePdfFont() {
+  if (!fs.existsSync(bodyFontPath)) {
+    throw new Error(`PDF font not found: ${bodyFontPath}`);
+  }
+}
+
 function createPdfBuffer(renderFn) {
   return new Promise((resolve, reject) => {
+    ensurePdfFont();
     const doc = new PDFDocument({ size: 'A4', margin: 40 });
     const chunks = [];
 
