@@ -16,9 +16,11 @@ const { buildEstimate } = require('./estimate');
 
 const bodyFontCandidates = [
   '/System/Library/Fonts/Supplemental/Arial Unicode.ttf',
-  '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+  '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+  '/System/Library/Fonts/Supplemental/Arial.ttf'
 ];
 const displayFontCandidates = [
+  '/System/Library/Fonts/Supplemental/Arial Bold.ttf',
   '/System/Library/Fonts/Supplemental/Georgia.ttf',
   '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf'
 ];
@@ -28,13 +30,13 @@ const displayFontPath = displayFontCandidates.find((candidate) => fs.existsSync(
 
 function setBodyFont(doc) {
   if (bodyFontPath) {
-    doc.font('Cyrillic');
+    doc.font(bodyFontPath);
   }
 }
 
 function setDisplayFont(doc) {
   if (displayFontPath) {
-    doc.font('Display');
+    doc.font(displayFontPath);
   } else {
     setBodyFont(doc);
   }
@@ -53,14 +55,7 @@ function createPdfBuffer(renderFn) {
     const doc = new PDFDocument({ size: 'A4', margin: 40 });
     const chunks = [];
 
-    if (bodyFontPath) {
-      doc.registerFont('Cyrillic', bodyFontPath);
-      setBodyFont(doc);
-    }
-
-    if (displayFontPath) {
-      doc.registerFont('Display', displayFontPath);
-    }
+    setBodyFont(doc);
 
     doc.on('data', (chunk) => chunks.push(chunk));
     doc.on('error', reject);
